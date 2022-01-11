@@ -21,7 +21,7 @@ class Model {
         return item
     }
 
-    deleteItem(id) {
+    removeItem(id) {
         const index = this.state.findIndex(item => item.id == id)
 
         if (index > -1) {

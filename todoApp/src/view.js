@@ -13,11 +13,11 @@ class View extends EventEmitter {
 
     createElement(todo) {
         const checkbox = createELement('input', { type: 'checkbox', className: 'checkbox', checked: todo.copmleted ? 'checked' : '' })
-        const label = createELement('input', { className: 'title' }, todo.title)
+        const label = createELement('label', { className: 'title' }, todo.title)
         const editInput = createELement('input', { type: 'text', className: 'textfield' })
         const editButton = createELement('button', { className: 'edit' }, "edit")
-        const deleteButton = createELement('button', { className: 'delete' }, "delete")
-        const item = createELement('li', { className: `todo-item ${todo.copmleted ? 'completed' : ''}`, 'data-id': todo.id }, checkbox, label, editInput, editButton, deleteButton)
+        const removeButton = createELement('button', { className: 'delete' }, "delete")
+        const item = createELement('li', { className: `todo-item${todo.copmleted ? ' completed' : ''}`, 'data-id': todo.id }, checkbox, label, editInput, editButton, removeButton)
 
         return this.addEventListeners(item)
 
@@ -26,11 +26,11 @@ class View extends EventEmitter {
     addEventListeners(listItem) {
         const checkbox = listItem.querySelector('.checkbox')
         const editButton = listItem.querySelector('button.edit')
-        const deleteButton = listItem.querySelector('button.delete')
+        const removeButton = listItem.querySelector('button.delete')
 
         checkbox.addEventListener('change', this.handleToggle.bind(this))
         editButton.addEventListener('click', this.handleEdit.bind(this))
-        deleteButton.addEventListener('click', this.handleDelete.bind(this))
+        removeButton.addEventListener('click', this.handleRemove.bind(this))
 
         return listItem
     }
@@ -71,11 +71,11 @@ class View extends EventEmitter {
         }
     }
 
-    handleDelete({ target }) {
+    handleRemove({ target }) {
         const listItem = target.parentNode
         const id = listItem.getAttribute('data-id')
 
-        this.emit('delete', id)
+        this.emit('remove', id)
 
     }
 
@@ -115,8 +115,8 @@ class View extends EventEmitter {
         // input.value = label.value
     }
 
-    removeItem(id) {
-        const listItem = this.findListItem(todo.id)
+    removeItem({ id }) {
+        const listItem = this.findListItem(id)
 
         this.list.removeChild(listItem)
     }

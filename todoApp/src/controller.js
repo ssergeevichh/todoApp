@@ -6,7 +6,7 @@ class Contoller {
         view.on('add', this.addTodo.bind(this))
         view.on('toggle', this.toggleTodo.bind(this))
         view.on('edit', this.editTodo.bind(this))
-        view.on('delete', this.deleteTodo.bind(this))
+        view.on('delete', this.removeTodo.bind(this))
     }
 
     addTodo(title) {
@@ -20,7 +20,7 @@ class Contoller {
 
     toggleTodo({ id, completed }) {
         const todo = this.model.updateItem(id, { completed })
-
+        
         this.view.toggleItem(todo)
     }
 
@@ -30,8 +30,8 @@ class Contoller {
         this.view.editItem(todo)
     }
 
-    deleteTodo(id) {
-        this.model.deleteItem(id)
+    removeTodo(id) {
+        this.model.removeItem(id)
         this.view.removeItem(id)
     }
 }
